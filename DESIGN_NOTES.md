@@ -102,3 +102,32 @@ genuinely flexible linkers.
   papers before finalising.
 - Confirm the eADF4 C module sequence against the primary Scheibel-group
   publication rather than a secondary description.
+
+## Prediction settings
+
+ColabFold v1.6.3 (AlphaFold2 + MMseqs2), Google Colab, NVIDIA T4.
+These settings are held identical across every construct; the project's
+conclusions rest on comparing predictions, so a changed setting between
+runs would void the comparison.
+
+| Parameter | Value |
+|---|---|
+| `num_relax` | 0 (no Amber relaxation) |
+| `template_mode` | none |
+| `msa_mode` | mmseqs2_uniref_env |
+| `pair_mode` | unpaired_paired |
+| `model_type` | auto |
+| `num_recycles` | 3 |
+| `max_msa` | auto |
+| `num_seeds` | 1 for monomer controls; >=3 for repeat-containing constructs |
+| `use_dropout` | off |
+
+Note that `model_type: auto` is a rule, not a fixed model: it selects
+`alphafold2_ptm` for monomers and `alphafold2_multimer_v3` for complexes,
+and `num_recycles` auto-adjusts to 20 for multimers. The dimer constructs
+therefore run under a different model than the monomers by design, and
+pLDDT values should not be compared across that boundary -- only within it.
+
+`num_seeds` is raised for constructs containing the repeat core because
+seed variance is large in low-confidence regions; reporting a single seed
+there would overstate precision.
