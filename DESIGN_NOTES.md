@@ -140,6 +140,7 @@ there would overstate precision.
 | `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
 | `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | 3 |
 | `04_BMP2k_alone` | 63.00 | 0.047 | 59.7-63.0 (3.3) | ~2100 |
+| `08_C4_alone` | 35.30 | 0.121 | 33.0-35.3 (2.3) | 2 |
 
 ### 01_NT_alone
 
@@ -162,6 +163,7 @@ cd ~/osteoloom-fold-validation && cat >> DESIGN_NOTES.md << 'EOF'
 | `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
 | `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | 3 |
 | `04_BMP2k_alone` | 63.00 | 0.047 | 59.7-63.0 (3.3) | ~2100 |
+| `08_C4_alone` | 35.30 | 0.121 | 33.0-35.3 (2.3) | 2 |
 
 ### 01_NT_alone
 
@@ -239,3 +241,37 @@ region becomes more defined in context is the sharpest question for
 `06_C_cassette`: if its local pLDDT and PAE remain at this level when linked,
 that is a genuine weakness in the design rather than an artefact of
 truncation.
+
+### 08_C4_alone
+
+Four copies of the eADF4 C module, folded in isolation, return no structure:
+pLDDT 35.3 and pTM 0.121 for the top model, with all five models in tight
+agreement (33.0-35.3) and a fully extended, non-compact backbone. This is the
+lowest-confidence prediction in the project by a wide margin.
+
+Three independent signals agree. Beyond pLDDT and pTM, the recycle tolerances
+never converged (6.06, 10.7, 9.99 across recycles 1-3, against 0.121 for
+`01_NT_alone`), meaning the model was still moving the structure by
+Angstrom-scale distances at the final recycle rather than settling on an
+answer.
+
+The MSA contained only 2 sequences (`max_seq=2`). Spidroin repeats are
+low-complexity -- poly-alanine blocks and GPGGY motifs -- and such regions are
+routinely masked in sequence databases, so there was little to align against.
+
+This does not undermine the result. `03_LL37_alone` provides the necessary
+control: with an MSA of 3 sequences it returned pLDDT 87.8. An empty alignment
+therefore does not force a low-confidence prediction; AlphaFold will commit
+when the sequence carries strong structural propensity. C4 has comparable
+alignment depth and returns 34. The difference lies in the sequence, not in
+the available data.
+
+No confident beta-sheet was predicted. The repeats form beta-crystallites in
+spun silk, so a confident beta prediction would have indicated the model was
+reporting the solid-state conformation; it reported the solution state
+(disordered) instead, which is the expected and correct behaviour for a
+single-chain prediction in the absence of assembly.
+
+This result supports the decision recorded above not to fold the full-length
+986-residue construct: roughly 570 of those residues are repeat core, and this
+is what that region predicts as.
