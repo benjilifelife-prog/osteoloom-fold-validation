@@ -138,7 +138,7 @@ there would overstate precision.
 |---|---|---|---|---|
 | `01_NT_alone` | 86.34 | 0.807 | 84.0-86.4 (2.4) | 404 |
 | `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
-| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | TBD |
+| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | 3 |
 
 ### 01_NT_alone
 
@@ -159,7 +159,7 @@ cd ~/osteoloom-fold-validation && cat >> DESIGN_NOTES.md << 'EOF'
 |---|---|---|---|---|
 | `01_NT_alone` | 86.34 | 0.807 | 84.0-86.4 (2.4) | 404 |
 | `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
-| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | TBD |
+| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | 3 |
 
 ### 01_NT_alone
 
@@ -193,8 +193,16 @@ helix, while pTM reports confidence in a global topology that does not exist
 here. pLDDT alone should not be read as evidence that the conformation is
 biologically determined. The large inter-model spread is consistent with a
 peptide that is disordered in aqueous solution and helical only in
-membrane-mimetic environments; the deposited structures are helical, so a
-helical prediction largely reflects the training data.
+membrane-mimetic environments.
+
+Critically, the MSA for this construct contained only 3 sequences
+(`max_seq=3`), against 404 and 394 for NT and CT. A 37-residue fragment
+excised from its parent protein has almost no standalone homologs to align
+against, so this prediction ran effectively in single-sequence mode. The
+confident helix therefore does not reflect evolutionary coupling -- there was
+none available -- but the model's learned sequence-to-structure prior acting
+on an amphipathic pattern. The large inter-model spread is consistent with
+that: with no alignment to constrain them, the five models diverge.
 
 This control's value is as a baseline for the same segment inside
 `06_C_cassette`, not as a result in its own right.
