@@ -206,3 +206,34 @@ that: with no alignment to constrain them, the five models diverge.
 
 This control's value is as a baseline for the same segment inside
 `06_C_cassette`, not as a result in its own right.
+
+### 04_BMP2k_alone
+
+The excised knuckle epitope returns no defined conformation: pLDDT 63.0 and
+pTM 0.047 for the top model, with all five models in close agreement
+(59.7-63.0, pTM 0.046-0.055) and an extended, non-compact backbone.
+
+Critically, this is not an artefact of a sparse alignment. The MSA for this
+construct was the deepest of any run in the project (`max_seq=512,
+max_extra_seq=1590`, ~2100 sequences), reflecting BMP-2's membership in the
+widely conserved TGF-beta superfamily. AlphaFold therefore had substantial
+coevolutionary information available and still placed the fragment in no
+defined structure, consistently across five models.
+
+The contrast with `03_LL37_alone` is instructive: LL-37 was predicted
+confidently (pLDDT 87.8) from an MSA of 3 sequences, while the knuckle epitope
+was predicted unconfidently from ~2100. Alignment depth does not determine
+confidence; the segment's intrinsic structural propensity does.
+
+This supports the reasoning given above for selecting the knuckle epitope over
+OGP: in BMP-2 the segment is a beta-strand, and beta-strands require partner
+strands to pair with. Excised, there is nothing to pair against.
+
+Design implication: the osteogenic component of this construct may be
+conformationally undefined. BMP-2 receptor engagement depends on the knuckle
+presenting a specific conformation, and the flexible (GGGGS)x3 linkers
+flanking it in the cassette offer no structural constraint. Whether the
+region becomes more defined in context is the sharpest question for
+`06_C_cassette`: if its local pLDDT and PAE remain at this level when linked,
+that is a genuine weakness in the design rather than an artefact of
+truncation.
