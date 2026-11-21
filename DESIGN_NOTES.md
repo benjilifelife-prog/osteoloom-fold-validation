@@ -131,3 +131,70 @@ pLDDT values should not be compared across that boundary -- only within it.
 `num_seeds` is raised for constructs containing the repeat core because
 seed variance is large in low-confidence regions; reporting a single seed
 there would overstate precision.
+
+## Results
+
+| Construct | pLDDT (rank 1) | pTM | Model spread | MSA depth |
+|---|---|---|---|---|
+| `01_NT_alone` | 86.34 | 0.807 | 84.0-86.4 (2.4) | 404 |
+| `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
+| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | TBD |
+
+### 01_NT_alone
+
+Folds with high confidence, consistent with the deposited NMR structure. The
+first seven residues (`GSGNSHT`) are the only disordered stretch at that end,
+rising from pLDDT 31.8 at G1 to 86.3 by W10; excluding the first five residues
+raises the mean to 88.10. This is consistent with the leading `GS` being a
+cloning scar rather than native sequence, and partially closes that open item.
+
+### 02_CT_alone
+
+Scores comparably to NT despite being modelled as a
+cd ~/osteoloom-fold-validation && cat >> DESIGN_NOTES.md << 'EOF'
+
+## Results
+
+| Construct | pLDDT (rank 1) | pTM | Model spread | MSA depth |
+|---|---|---|---|---|
+| `01_NT_alone` | 86.34 | 0.807 | 84.0-86.4 (2.4) | 404 |
+| `02_CT_alone` | 85.70 | 0.751 | 83.0-85.7 (2.7) | 394 |
+| `03_LL37_alone` | 87.80 | 0.464 | 75.4-87.8 (12.4) | TBD |
+
+### 01_NT_alone
+
+Folds with high confidence, consistent with the deposited NMR structure. The
+first seven residues (`GSGNSHT`) are the only disordered stretch at that end,
+rising from pLDDT 31.8 at G1 to 86.3 by W10; excluding the first five residues
+raises the mean to 88.10. This is consistent with the leading `GS` being a
+cloning scar rather than native sequence, and partially closes that open item.
+
+### 02_CT_alone
+
+Scores comparably to NT despite being modelled as a monomer, which suggests the
+CT fold is largely self-sufficient without its partner chain. The lower pTM
+(0.751 vs 0.807) and a low-confidence extended N-terminal arm in the model are
+both consistent with a domain missing half of its native assembly -- in
+spidroin CT domains that region participates in the dimer interface. This is a
+specific, testable prediction for `10_CT_dimer`: the arm should order when the
+second chain is present.
+
+NT and CT were predicted from near-identical alignment depths (404 vs 394
+sequences), so the comparison between them is not confounded by MSA depth.
+
+### 03_LL37_alone
+
+LL-37 predicts as a single continuous alpha-helix with high local confidence
+(pLDDT 87.8) but low global confidence (pTM 0.464) and high inter-model
+variance (75.4-87.8). The divergence is expected for an isolated helical
+peptide with no tertiary contacts: pLDDT reports that residue positions are
+well-determined relative to their neighbours, which is trivially true of a
+helix, while pTM reports confidence in a global topology that does not exist
+here. pLDDT alone should not be read as evidence that the conformation is
+biologically determined. The large inter-model spread is consistent with a
+peptide that is disordered in aqueous solution and helical only in
+membrane-mimetic environments; the deposited structures are helical, so a
+helical prediction largely reflects the training data.
+
+This control's value is as a baseline for the same segment inside
+`06_C_cassette`, not as a result in its own right.
